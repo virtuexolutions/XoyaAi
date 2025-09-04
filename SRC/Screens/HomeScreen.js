@@ -1,5 +1,5 @@
 import {KeyboardAvoidingView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import CustomStatusBar from '../Components/CustomStatusBar';
 import Header from '../Components/Header';
 import Color from '../Assets/Utilities/Color';
@@ -9,7 +9,10 @@ import {moderateScale} from 'react-native-size-matters';
 import CustomButton from '../Components/CustomButton';
 import TopicComponent from '../Components/TopicComponent';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import {
+  Bubble,
   Composer,
   GiftedChat,
   InputToolbar,
@@ -22,6 +25,50 @@ import LinearGradient from 'react-native-linear-gradient';
 const HomeScreen = () => {
   const insets = useSafeAreaInsets();
   console.log('🚀 ~ HomeScreen ~ insets:', insets);
+  const [messages, setMessages] = useState([
+    {
+      _id: 1,
+      text: "Hello! How are you?",
+      createdAt: new Date(),
+      user: {
+        _id: 2,
+        name: "John Doe",
+        avatar: "https://placeimg.com/140/140/any",
+      },
+    },
+    {
+      _id: 2,
+      text: "I’m good, thanks! What about you?",
+      createdAt: new Date(),
+      user: {
+        _id: 1,
+        name: "You",
+        avatar: "https://placeimg.com/140/140/tech",
+      },
+    },
+    {
+      _id: 3,
+      text: "All good here, working on a new React Native project 🚀",
+      createdAt: new Date(),
+      user: {
+        _id: 2,
+        name: "John Doe",
+        avatar: "https://placeimg.com/140/140/any",
+      },
+    },
+    {
+      _id: 4,
+      text: "That’s awesome! Gifted Chat is super handy.",
+      createdAt: new Date(),
+      user: {
+        _id: 1,
+        name: "You",
+        avatar: "https://placeimg.com/140/140/tech",
+      },
+    },
+  ]);
+  console.log("🚀 ~ HomeScreen ~ messages:", messages)
+  const [isStarted, setIsStartedChat] = useState(true)
   const menuItems = [
     {
       id: 1,
@@ -60,6 +107,30 @@ const HomeScreen = () => {
     },
   ];
 
+  
+  const onSend = useCallback(
+    (messages = []) => {
+      const newMessage = {
+        _id: Math.random().toString(36).substring(7),
+        text: messages[0].text,
+        createdAt: new Date(),
+        user: {
+          _id: Date.now().toString(),
+          name: `${"sdsdsd"}`,
+          avatar: "https://",
+        },
+      };
+      setIsStartedChat(true)
+      setMessages(previousMessages =>
+        GiftedChat.append(previousMessages, newMessage),
+      );
+
+
+    },
+    [messages],
+  );
+
+
   return (
     <SafeAreaView
       style={{
@@ -74,180 +145,9 @@ const HomeScreen = () => {
           styles.mainScreen,
           {paddingBottom: insets?.bottom ? insets.bottom * 20 : 0},
         ]}>
-        <GiftedChat
-          bottomOffset={windowHeight * 0.01}
-          // renderLoading={() => {
-          //   return <ActivityIndicator color={Color.white} />;
-          // }}
-          // renderAvatar={(props) => {
-          //   return <GiftedAvatar
-          //   {...props}
-          // containerStyle={{
-          //   left:{
-          //     // backgroundColor:"red",
-          //     left:moderateScale(-10,0.2)
-          //   }
-          // }}
-          // currentMessage={{
-          //   image:null,
-          // }}
-          //   />
-          // }}
-          inverted
-          alwaysShowSend={true}
-          renderAvatarOnTop
-          showAvatarForEveryMessage={false}
-          renderSend={props => {
-            return (
-              <Send
-                {...props}
-                containerStyle={{
-                  backgroundColor: 'red',
-                }}
-                children={
-                  <Icon
-                    as={Ionicons}
-                    name={'arrow-forward'}
-                    size={moderateScale(25, 0.2)}
-                    style={{color: '#000000fb'}}
-                  />
-                }
-                sendButtonProps={{
-                  style: {
-                    width: windowWidth * 0.11,
-                    height: windowWidth * 0.11,
-                    borderRadius: (windowWidth * 0.1) / 2,
-                    backgroundColor: Color.red,
-                    bottom: -2,
-                    bottom: 2,
-                    right: 10,
-                    //  marginRight:moderateScale(10,0.3),
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  },
-                }}></Send>
-            );
-          }}
-          renderComposer={props => {
-            return (
-              <View
-                style={{
-                  width: '90%',
-                }}>
-                <Composer
-                  {...props}
-                  textInputStyle={{
-                    width: windowWidth * 0.8,
-                    backgroundColor: 'blue',
-                    height: windowHeight * 0.2,
-                  }}
-                />
-              </View>
-            );
-          }}
-          renderInputToolbar={props => {
-            return (
-              <InputToolbar
-                {...props}
-                containerStyle={{
-                  height: windowHeight * 0.09,
-                  width: windowWidth,
-                  backgroundColor: Color.black,
-                  alignItems: 'center',
-                  marginHorizontal: moderateScale(5, 0.2),
-                  paddingTop: moderateScale(6, 0.3),
-                  // marginTop: moderateScale(20, 0.2),
-                  marginVertical: moderateScale(10, 0.2),
-                  bottom: moderateScale(60, 0.34),
-                  borderWidth: 1,
-                  borderColor: Color.black,
-                  justifyContent: 'center',
-                }}></InputToolbar>
-            );
-            // return
-            // profileData?.id == chatData?.sender_id &&
-            //   chatStatus?.toLowerCase() == 'pending' ? null : (
-            //   <InputToolbar
-            //     {...props}
-            //     containerStyle={{
-            //       // height: windowHeight * 0.1,
-            //       backgroundColor: '#1d1c1c',
-            //       alignItems: 'center',
-            //       marginHorizontal: moderateScale(5, 0.2),
-            //       borderRadius: moderateScale(55, 0.6),
-            //       paddingTop: moderateScale(6, 0.3),
-            //       // marginTop: moderateScale(20, 0.2),
-            //       marginVertical: moderateScale(10, 0.2),
-            //       // bottom: moderateScale(25, 0.34),
-            //     }}></InputToolbar>
-            // );
-          }}
-          // textInputStyle={{
-          //   color: '#f3e8e8',
-          //   backgroundColor: 'black',
-          //   height: windowHeight * 0.08,
-          //   width: windowWidth * 0.6,
-          // }}
-          placeholderTextColor={'#fffdfd'}
-          // messages={messages}
-          // renderBubble={props => {
-          //   return (
-          //     <Bubble
-          //       {...props}
-          //       containerStyle={{
-          //         left: {
-          //           // paddingVertical: moderateScale(10, 0.6),
-          //           marginBottom: moderateScale(20, 0.2),
-          //         },
-          //         right: {
-          //           marginBottom: moderateScale(20, 0.2),
-          //         },
-          //         // left: {
-          //         //   // marginBottom: moderateScale(40, 0.2),
-          //         //   paddingVertical: moderateScale(10, 0.2),
-          //         //   backgroundColor: 'red',
-          //         // },
-          //         // right: {
-          //         //   paddingVertical: moderateScale(10, 0.2),
-          //         //   // backgroundColor:"red"
-          //         // },
-          //       }}
-          //       wrapperStyle={{
-          //         left: {
-          //           width: windowWidth * 0.45,
-          //           // left: moderateScale(-30,0.3),
-          //           borderRadius: moderateScale(6, 0.2),
-          //           backgroundColor: themeColor[1],
-          //           paddingVertical: moderateScale(8, 0.5),
-          //         },
-          //         right: {
-          //           width: windowWidth * 0.45,
-          //           backgroundColor: '#a3dbf1',
-          //           paddingVertical: moderateScale(8, 0.5),
-          //         },
-          //       }}
-          //       textStyle={{
-          //         right: {
-          //           color: 'black',
-          //         },
-          //         left: {
-          //           color: 'white',
-          //         },
-          //       }}></Bubble>
-          //   );
-          // }}
-          isTyping={false}
-          // onSend={text => onSend(text)}
-          alignTop={true}
-          // user={{
-          //   _id: profileData?.id,
-          //   // name: profileData?.name,
-          //   // avatar: `${baseUrl}/${profileData?.photo}`,
-          // }}
-          showUserAvatar={false}
-        />
-
-        {/* <CustomText isBold style={styles.title}>
+      {!isStarted &&(  
+        <>
+      <CustomText isBold style={styles.title}>
           Hi, Henry!
         </CustomText>
         <CustomText style={styles.title}>How Can I Help You ?</CustomText>
@@ -265,6 +165,8 @@ const HomeScreen = () => {
                 gradientColor={['#C99D63', '#C99D63']}
                 borderRadius={moderateScale(30, 0.3)}
                 isGradient={item?.active}
+                borderWidth={1}
+                borderColor={"#FBC88359"}
                 fontSize={moderateScale(10, 0.2)}
                 paddingHorizontal={moderateScale(23, 0.2)}
                 paddingVertical={moderateScale(10, 0.2)}
@@ -296,25 +198,17 @@ const HomeScreen = () => {
             />
           </View>
         </View>
-         */}
-        {/* <GiftedChat
-          renderInputToolbar={props => {
-            return (
-              <InputToolbar
-                {...props}
-                containerStyle={styles.inputToolBar}
-                primaryStyle={{
-                  width: windowWidth * 0.9,
-                }}
-              />
-            );
-          }}
-          textInputStyle={{
-            color: '#f3e8e8',
-            width: windowWidth * 0.8,
-          }}
-          alignTop={true}
+        </>
+        )}
+{/* <View style={{height: windowHeight * 0.9, backgroundColor:"red"}}> */}
+
+        <GiftedChat
+        
+          inverted
           alwaysShowSend={true}
+          renderAvatarOnTop
+          showAvatarForEveryMessage={false}
+          // renderActions={}
           renderSend={props => {
             return (
               <LinearGradient
@@ -324,27 +218,14 @@ const HomeScreen = () => {
                 end={{x: 0.5, y: 0.5}}>
                 <Send
                   {...props}
-                  // containerStyle={{
-                  //   backgroundColor: 'red',
-                  // }}
-
-                  children={
-                    <Icon
-                      as={Ionicons}
-                      name={'arrow-forward'}
-                      size={moderateScale(25, 0.2)}
-                      style={{color: Color.white}}
-                    />
-                  }
+                  // children={
+                  //   <CustomImage
+                  //   source
+                  //   />
+                  // }
                   sendButtonProps={{
                     style: {
-                      // width: windowWidth * 0.11,
-                      // height: windowWidth * 0.11,
-
                       backgroundColor: 'transparent',
-                      //  bottom:-2,
-
-                      //  marginRight:moderateScale(10,0.3),
                       alignItems: 'center',
                       justifyContent: 'center',
                     },
@@ -352,7 +233,128 @@ const HomeScreen = () => {
               </LinearGradient>
             );
           }}
-        /> */}
+          renderComposer={props => {
+            return (
+              <View
+                style={{
+                  width: '93%',
+                  height: '110%',
+                }}>
+                <Composer
+                  {...props}
+                  textInputStyle={{
+                    width: windowWidth * 0.8,
+                    backgroundColor: Color.brown,
+                    height: windowHeight * 0.38,
+                    borderRadius: moderateScale(40, 0.2),
+                    paddingHorizontal: moderateScale(15, 0.6),
+                    color: '#f3e8e8',
+                  }}
+                />
+              </View>
+            );
+          }}
+          renderInputToolbar={props => {
+            return (
+              <InputToolbar
+                {...props}
+                containerStyle={{
+                  width: windowWidth,
+                  backgroundColor: Color.black,
+                  height: windowHeight * 0.09,
+                  alignItems: 'center',
+                  marginHorizontal: moderateScale(5, 0.2),
+                  paddingTop: moderateScale(6, 0.3),
+                  marginVertical: moderateScale(10, 0.2),
+                  bottom: moderateScale(50, 0.34),
+                  borderWidth: 1,
+                  borderColor: Color.black,
+                  justifyContent: 'center',
+                  paddingHorizontal: moderateScale(10, 0.6),
+                  alignSelf: 'center',
+                }}></InputToolbar>
+            );
+          }}
+          textInputStyle={{
+            color: '#f3e8e8',
+          }}
+          timeTextStyle={{display:"none"}}
+          
+          placeholderTextColor={'#fffdfd'}
+          messages={messages}
+          renderTime={() => null}
+          renderBubble={props => {
+            return (
+              <View style={{flexDirection:"column"}}>
+              <Bubble
+                {...props}
+                containerStyle={{
+                  left: {
+                    // paddingVertical: moderateScale(10, 0.6),
+
+
+                      // backgroundColor: 'red',
+                      marginBottom: moderateScale(20, 0.2),
+                    },
+                    right: {
+                    // backgroundColor: 'red',
+                    marginBottom: moderateScale(20, 0.2),
+                    marginRight:moderateScale(10,0.2)
+                  },
+                }}
+                wrapperStyle={{
+                  left: {
+                    width: windowWidth * 0.5,
+                    // left: moderateScale(-30,0.3),
+                    backgroundColor: Color.brown,
+                    borderRadius: moderateScale(26, 0.2),
+                    paddingVertical: moderateScale(8, 0.5),
+                  },
+                  right: {
+                    width: windowWidth * 0.5,
+                    // paddingHorizontal:moderateScale(10,0.2),
+                    borderTopRightRadius:moderateScale(26,0.3),
+                    borderBottomLeftRadius: moderateScale(26, 0.2),
+                    borderTopLeftRadius: moderateScale(26, 0.2),
+                    borderBottomRightRadius:moderateScale(0),
+                    backgroundColor: Color.white,
+
+                    paddingVertical: moderateScale(8, 0.5),
+                    
+                  },
+                }}
+                textStyle={{
+                  right: {
+                    color: 'black',
+                  },
+                  left: {
+                    color: 'white',
+                  },
+                }}></Bubble>
+{props?.currentMessage?.user?._id !==  2 &&                
+<View style={styles.clipboardCopy}>
+  <Icon 
+  name='share-a'
+  as={Fontisto}
+  color={Color.white}
+  size={moderateScale(10,0.2)}
+  />
+  <CustomText style={styles.text2}>Share</CustomText>
+  </View>}
+                </View>
+            );
+          }}
+          isTyping={false}
+          onSend={text => onSend(text)}
+          alignTop={true}
+          user={{
+            _id: 2,
+            name: "profileData?.name",
+            // avatar: `${baseUrl}/${profileData?.photo}`,
+          }}
+          showUserAvatar={false}
+        />
+{/* </View> */}
       </View>
     </SafeAreaView>
   );
@@ -411,11 +413,29 @@ const styles = StyleSheet.create({
     borderRadius: (windowWidth * 0.15) / 2,
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'absolute',
-    bottom: moderateScale(10, 0.2),
-    right: moderateScale(-50, 0.2),
-    zIndex: 2,
-    width: windowWidth * 0.15,
-    height: windowWidth * 0.15,
+    width: windowWidth * 0.14,
+    height: windowWidth * 0.14,
+    right: 10,
+    top: -2,
   },
+  clipboardCopy:{
+    // width:moderateScale(50,0.2),
+    // height:moderateScale(50,0.2),
+    // position:"absolute",
+// width:windowWidth * 0.25,
+width: "30%",
+    paddingHorizontal:moderateScale(5,0.2),
+    paddingVertical:moderateScale(6,0.2),
+    flexDirection:"row",
+    alignItems:"center",
+    justifyContent:"center",
+    gap:moderateScale(12,0.3),
+    borderRadius:moderateScale(20,0.2),
+    backgroundColor:Color.brown
+  },
+  text2:{
+
+    fontSize:moderateScale(10,0.2),
+    color:Color.white
+  }
 });
