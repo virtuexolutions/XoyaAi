@@ -8,8 +8,7 @@ import {windowHeight, windowWidth} from '../Utillity/utils';
 import CustomText from './CustomText';
 import CustomImage from './CustomImage';
 const {height, width} = Dimensions.get('window');
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Modal from 'react-native-modal';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {imageUrl} from '../Config';
@@ -18,7 +17,7 @@ import {setUserLogout} from '../Store/slices/auth';
 const Header = props => {
   const dispatch = useDispatch();
   const notification = useSelector(state => state.commonReducer.notification);
-  const navigationN = useNavigation();
+  // const navigationN = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const {
     title,
@@ -52,6 +51,7 @@ const Header = props => {
         styles.header2,
         headerColor && {
           backgroundColor: headerColor,
+          
         },
       ]}>
       {showBack && (
@@ -59,25 +59,38 @@ const Header = props => {
           activeOpacity={0.9}
           onPress={() => showBack && navigationN.goBack()}
           style={{
-            position: 'absolute',
-            zIndex: 1,
-            left: moderateScale(10, 0.3),
+            // position: 'absolute',
+            // zIndex: 1,
+            // left: moderateScale(10, 0.3),
             height: moderateScale(30, 0.3),
             width: moderateScale(30, 0.3),
-            borderRadius: moderateScale(5, 0.3),
+            borderRadius: moderateScale(15, 0.3),
+            borderColor:"#FBC883",
+            borderWidth:1,
             // backgroundColor: Color.themeBlack,
             justifyContent: 'center',
             alignItems: 'center',
+            opacity:0.2
           }}>
           <Icon
-            name={'arrowleft'}
-            as={AntDesign}
-            color={Color.white}
-            size={moderateScale(25, 0.3)}
+            name={'chevron-back'}
+            as={Ionicons}
+            color={"#FBC883"}
+            size={moderateScale(20, 0.3)}
           />
         </TouchableOpacity>
       )}
-      <CustomImage
+      {
+        typeof title == "string" ? <CustomText 
+        style={{
+          fontSize:moderateScale(28,0.2),
+          alignSelf: 'center',
+          color:Color.white,
+          width: windowWidth * 0.4,
+          // backgroundColor:Color.mediumGray,
+          textAlign:"center"
+        }}
+        >{title}</CustomText> : <CustomImage
         // source={require('../Assets/Images/Logo.png')}
         resizeMode={'stretch'}
         style={{
@@ -86,40 +99,29 @@ const Header = props => {
           alignSelf: 'center',
         }}
       />
-      {showUser && (
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => {
-            // navigationN.navigate('MyAccounts');
-          }}
-          style={{
-            position: 'absolute',
-            right: moderateScale(10, 0.3),
-
-            alignSelf: 'center',
-            width: moderateScale(40, 0.3),
-            height: moderateScale(40, 0.3),
-            borderRadius: moderateScale(20, 0.3),
-            backgroundColor: Color.white,
-            overflow: 'hidden',
-          }}>
-          <CustomImage
-            onPress={() => {
-              // navigationN.navigate('MyAccounts');
-            }}
-            // source={
-            //   user?.photo
-            //     ? {uri: `${user?.photo}`}
-            //     : require('../Assets/Images/user.png')
-            // }
-            resizeMode={'cover'}
-            style={{
-              width: '100%',
-              height: '100%',
-            }}
-          />
-          {/* )} */}
-        </TouchableOpacity>
+      }
+      {true && (
+                <TouchableOpacity
+                activeOpacity={0.9}
+                onPress={() => showBack && navigationN.goBack()}
+                style={{
+                  // position: 'absolute',
+                  // zIndex: 1,
+                  // left: moderateScale(10, 0.3),
+                  height: moderateScale(30, 0.3),
+                  width: moderateScale(30, 0.3),
+                  borderRadius: moderateScale(15, 0.3),
+                  borderColor:"#FBC883",
+                  borderWidth:1,
+                  // backgroundColor: Color.themeBlack,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  opacity:0.2
+                }}>
+                <CustomImage
+                
+                source={require("../Assets/Images/wave2.png")} style={{width: moderateScale(5,0.2), height:moderateScale(5,0.2)}}/>
+              </TouchableOpacity>
       )}
       {showUndo && (
         <TouchableOpacity
@@ -150,12 +152,15 @@ const Header = props => {
 const styles = ScaledSheet.create({
   header2: {
     width: windowWidth,
-    height: windowHeight * 0.1,
+    // height: windowHeight * 0.1,
     backgroundColor: Color.black,
-    justifyContent: 'center',
-    // flexDirection: 'row',
+    // justifyContent: 'center',
+    gap:moderateScale(60,0.3),
+    flexDirection: 'row',
+    alignItems:"center",
     // justifyContent: 'space-between',
-    // paddingHorizontal: moderateScale(20, 0.3),
+    paddingHorizontal: moderateScale(20, 0.3),
+    paddingVertical:moderateScale(14,0.2)
     // backgroundColor: 'red',
   },
 });

@@ -41,9 +41,16 @@ const CustomButton = (props) => {
     textTransform,
     text,
     isBold,
+    imageSrc,
     disabled = false,
     alignSelf,
     image,
+    elevation, shadowColor, shadowOpacity,
+    shadowOffset,
+    shadowRadius,
+    iconIsImage,
+    paddingVertical,
+    paddingHorizontal, 
     gradientColor
 
     // value
@@ -62,6 +69,8 @@ const CustomButton = (props) => {
           borderColor: borderColor,
           marginTop: marginTop || 0,
           marginBottom: marginBottom || 0,
+          gap:moderateScale(12,0.2)
+         
         },
         alignSelf && {
           alignSelf: alignSelf,
@@ -76,11 +85,32 @@ const CustomButton = (props) => {
         borderWidth && {
           borderWidth: borderWidth,
         },
+        elevation && {
+          elevation:elevation,
+        },
+        shadowColor &&{
+          shadowColor:shadowColor
+        },
+        shadowOffset && {
+          shadowOffset:shadowOffset
+        },
+        shadowOpacity && {
+          shadowOpacity:shadowOpacity
+        },
+        shadowRadius && {
+          shadowRadius:shadowRadius
+        },
         disabled && {
           backgroundColor: Color.themeLightGray,
           borderColor: Color.themeLightGray,
           color: Color.white,
         },
+      paddingVertical && {
+          paddingVertical: isGradient ? 0 : paddingVertical
+        },
+        paddingHorizontal && {
+          paddingHorizontal: isGradient ? 0 : paddingHorizontal,
+        }
       ]}
       disabled={disabled}
     >
@@ -92,10 +122,14 @@ const CustomButton = (props) => {
             height: height,
             alignItems: "center",
             justifyContent: "center",
+            gap:moderateScale(12,0.2),
             borderRadius: borderRadius,
+            paddingHorizontal:paddingHorizontal,
+            paddingVertical: paddingVertical
+            
           }}
-          start={{ x: 0.2, y: 0.6}}
-          end={{ x: 1, y: 0 }}
+          start={{ x: 0.7, y: 0.2}}
+          end={{ x: 1, y: 1 }}
           colors={props?.gradientColor ? props?.gradientColor :  Color.btnColor}
         >
           {loader && (
@@ -104,6 +138,9 @@ const CustomButton = (props) => {
               size="small"
               color={loaderColor ? loaderColor : Color.white}
             />
+          )}
+                    {iconIsImage && (
+            <CustomImage source={imageSrc} style={{width:moderateScale(18,0.2), height:moderateScale(18,0.2)}}/>
           )}
           {iconName && (
             <Icon
@@ -116,9 +153,13 @@ const CustomButton = (props) => {
             image &&
             <View 
             style={{
-              width: windowWidth * 0.1,
-             height:windowWidth * 0.1,
-            //  paddingVertical:moderateScale(17, 0.8)
+              width: windowWidth * 0.05,
+             height:windowWidth * 0.05,
+             overflow:"hidden",
+             backgroundColor:"red",
+            //  borderWidth:2,
+            //  borderColor:"red"
+             //  paddingVertical:moderateScale(17, 0.8)
             }}
             >
 
@@ -126,7 +167,7 @@ const CustomButton = (props) => {
             resizeMode={'cover'}
             style={{width:"100%",
             height:"100%",
-            overflow:"hidden"
+
           
           }}
             />
@@ -157,6 +198,9 @@ const CustomButton = (props) => {
               size="small"
               color={loaderColor ? loaderColor : Color.white}
             />
+          )}
+          {iconIsImage && (
+            <CustomImage source={imageSrc} style={{width:moderateScale(18,0.2), height:moderateScale(18,0.2)}}/>
           )}
           {iconName && (
             <Icon

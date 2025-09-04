@@ -3,6 +3,7 @@ export default Color = {
   white: '#FFFFFF',
   black: '#000000',
   darkGray: '#4B4242',
+  themeGray: "#AAAAAA",
   mediumGray: '#9B9B9B',
   lightGrey: '#EBEBEB',
   veryLightGray: '#A8A8A8',
@@ -12,7 +13,7 @@ export default Color = {
   // themeRed: '#FFCCCB',
   red : 'red',
   lightGray:'#EEEEEE',
-
+  brown:"#322719",
   purple: '#083955',
   btnColor : [ '#C49948','#EBDBBD','#E3C488'],
   themeGradient : ['#000000','#292929C4'],

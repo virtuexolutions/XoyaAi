@@ -19,6 +19,8 @@ import {
 } from './SRC/Utillity/utils';
 import AppNavigator from './SRC/appNavigation';
 import Signup from './SRC/Screens/Signup';
+import HomeScreen from './SRC/Screens/HomeScreen';
+import VoiceLIstening from './SRC/Screens/VoiceLIstening';
 // import AppNavigator, {DrawerRoot} from './SRC/appNavigation';
 
 
@@ -63,7 +65,9 @@ const MainContainer = () => {
   if (isloading == true) {
     return <SplashScreen />;
   }
-  return <Signup />;
+  // return <VoiceLIstening />;
+  return <HomeScreen />;
+  // return <Signup />;
 };
 
 const useloader = value => {
