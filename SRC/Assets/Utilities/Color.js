@@ -15,8 +15,10 @@ export default Color = {
   lightGray: '#EEEEEE',
   brown: 'rgba(50, 40, 26,0.5)',
   purple: '#083955',
+  secondary:"#F6C480A3",
   btnColor: ['#C49948', '#EBDBBD', '#E3C488'],
-  themeGradient: ['#000000', '#292929C4'],
+  themeGradient:['#C99D63', '#C99D63'],
+  themeGradient1:['#F6C480', '#BFA14A'],
 
   // theme colors
   themeColor: 'rgb(227,196,136)',

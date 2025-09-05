@@ -21,6 +21,8 @@ import {
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Icon} from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
+import CustomImage from '../Components/CustomImage';
+import navigationService from '../navigationService';
 
 const HomeScreen = () => {
   const insets = useSafeAreaInsets();
@@ -68,7 +70,7 @@ const HomeScreen = () => {
     },
   ]);
   console.log("🚀 ~ HomeScreen ~ messages:", messages)
-  const [isStarted, setIsStartedChat] = useState(true)
+  const [isStartedChat, setIsStartedChat] = useState(false)
   const menuItems = [
     {
       id: 1,
@@ -139,13 +141,13 @@ const HomeScreen = () => {
         backgroundColor: Color.black,
       }}>
       {/* <CustomStatusBar backgroundColor={Color.black} /> */}
-      <Header showBack title={'Chat'} />
+      <Header showBack title={'Chat'} showVoice/>
       <View
         style={[
           styles.mainScreen,
           {paddingBottom: insets?.bottom ? insets.bottom * 20 : 0},
         ]}>
-      {!isStarted &&(  
+      {isStartedChat &&(  
         <>
       <CustomText isBold style={styles.title}>
           Hi, Henry!
@@ -162,7 +164,7 @@ const HomeScreen = () => {
                 textColor={Color.white}
                 iconIsImage
                 imageSrc={item.icon}
-                gradientColor={['#C99D63', '#C99D63']}
+                gradientColor={Color.themeGradient}
                 borderRadius={moderateScale(30, 0.3)}
                 isGradient={item?.active}
                 borderWidth={1}
@@ -200,10 +202,8 @@ const HomeScreen = () => {
         </View>
         </>
         )}
-{/* <View style={{height: windowHeight * 0.9, backgroundColor:"red"}}> */}
 
         <GiftedChat
-        
           inverted
           alwaysShowSend={true}
           renderAvatarOnTop
@@ -214,15 +214,15 @@ const HomeScreen = () => {
               <LinearGradient
                 style={styles.sendBtn}
                 colors={['#FBC883', '#BFA14A']}
-                start={{x: 0.15, y: 0.7}}
-                end={{x: 0.5, y: 0.5}}>
+                start={{x: 0.7, y: 0.5}}
+                end={{x: 0.3, y: 0.7}}>
                 <Send
                   {...props}
-                  // children={
-                  //   <CustomImage
-                  //   source
-                  //   />
-                  // }
+                  children={
+                    <CustomImage
+                    source={require("../Assets/Images/send.png")}
+                    />
+                  }
                   sendButtonProps={{
                     style: {
                       backgroundColor: 'transparent',
@@ -239,6 +239,7 @@ const HomeScreen = () => {
                 style={{
                   width: '93%',
                   height: '110%',
+                  // flexDirection:"row"
                 }}>
                 <Composer
                   {...props}
@@ -250,6 +251,13 @@ const HomeScreen = () => {
                     paddingHorizontal: moderateScale(15, 0.6),
                     color: '#f3e8e8',
                   }}
+                />
+                <CustomImage
+                onPress={() =>{
+                  navigationService.navigate("VoiceListening")
+                }}
+                style={{position:"absolute", top:-42, right:40 , zIndex:1}}
+                source={require("../Assets/Images/wave.png")}
                 />
               </View>
             );
@@ -290,14 +298,9 @@ const HomeScreen = () => {
                 {...props}
                 containerStyle={{
                   left: {
-                    // paddingVertical: moderateScale(10, 0.6),
-
-
-                      // backgroundColor: 'red',
                       marginBottom: moderateScale(20, 0.2),
                     },
                     right: {
-                    // backgroundColor: 'red',
                     marginBottom: moderateScale(20, 0.2),
                     marginRight:moderateScale(10,0.2)
                   },
@@ -305,14 +308,12 @@ const HomeScreen = () => {
                 wrapperStyle={{
                   left: {
                     width: windowWidth * 0.5,
-                    // left: moderateScale(-30,0.3),
                     backgroundColor: Color.brown,
                     borderRadius: moderateScale(26, 0.2),
                     paddingVertical: moderateScale(8, 0.5),
                   },
                   right: {
                     width: windowWidth * 0.5,
-                    // paddingHorizontal:moderateScale(10,0.2),
                     borderTopRightRadius:moderateScale(26,0.3),
                     borderBottomLeftRadius: moderateScale(26, 0.2),
                     borderTopLeftRadius: moderateScale(26, 0.2),
@@ -325,10 +326,10 @@ const HomeScreen = () => {
                 }}
                 textStyle={{
                   right: {
-                    color: 'black',
+                    color: Color.black,
                   },
                   left: {
-                    color: 'white',
+                    color: Color.white,
                   },
                 }}></Bubble>
 {props?.currentMessage?.user?._id !==  2 &&                
@@ -354,7 +355,6 @@ const HomeScreen = () => {
           }}
           showUserAvatar={false}
         />
-{/* </View> */}
       </View>
     </SafeAreaView>
   );

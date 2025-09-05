@@ -9,6 +9,7 @@ import HomeScreen from './Screens/HomeScreen';
 import LoginScreen from './Screens/LoginScreen';
 import Signup from './Screens/Signup';
 import Walkthrough from './Screens/Walkthrough';
+import VoiceLIstening from './Screens/VoiceLIstening';
 
 const AppNavigator = () => {
   const userData = useSelector(state => state.commonReducer.userData);
@@ -36,11 +37,11 @@ const AppNavigator = () => {
         : userData?.complete_questions?.toLowerCase() == 'no'
         ? 'QuestionAnswerScreen'
         : 'TabNavigation';
-
+    const firstScreen = token == null ? "LoginScreen" : "HomeScreen"
     return (
       <NavigationContainer ref={navigationService.navigationRef}>
         <RootNav.Navigator
-          initialRouteName={"HomeScreen"}
+          initialRouteName={firstScreen}
           screenOptions={{headerShown: false}}>
           <RootNav.Screen name="WalkThroughScreen" component={Walkthrough} />
 
@@ -50,6 +51,7 @@ const AppNavigator = () => {
           {/* <RootNav.Screen name="TabNavigation" component={TabNavigation} /> */}
           <RootNav.Screen name="ChangePassword" component={ChangePassword} />
           <RootNav.Screen name="HomeScreen" component={HomeScreen} />
+          <RootNav.Screen name="VoiceListening" component={VoiceLIstening} />
 
         </RootNav.Navigator>
       </NavigationContainer>

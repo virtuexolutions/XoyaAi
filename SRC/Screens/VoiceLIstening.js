@@ -16,9 +16,9 @@ import CustomImage from '../Components/CustomImage'
 const VoiceLIstening = () => {
   return (
     <>
-    <CustomStatusBar 
+    {/* <CustomStatusBar 
     backgroundColor={Color.black}
-    />
+    /> */}
     <ImageBackground
     source={require("../Assets/Images/backgroundForVoice.jpg")}
     style={styles.mainScreen}

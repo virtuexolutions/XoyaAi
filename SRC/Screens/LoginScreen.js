@@ -9,8 +9,11 @@ import Color from '../Assets/Utilities/Color'
 import { moderateScale } from 'react-native-size-matters'
 import CustomText from '../Components/CustomText'
 import CustomButton from '../Components/CustomButton'
+import { useDispatch } from 'react-redux'
+import { setUserToken } from '../Store/slices/auth'
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation, route}) => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   return (
@@ -62,7 +65,7 @@ const LoginScreen = () => {
            
                 width={windowWidth * 0.9}
                 height={windowHeight * 0.06}
-                gradientColor={['#F6C480', '#BFA14A']}
+                gradientColor={Color.themeGradient1}
                 borderRadius={moderateScale(30, 0.3)}
                 isGradient
                 elevation={20}
@@ -73,7 +76,8 @@ const LoginScreen = () => {
                 isBold={false}
                 marginBottom={moderateScale(50)}
                 onPress={() => {
-                  navigation.goBack();
+                  // navigation.goBack();
+                  dispatch(setUserToken({token:"supersecret"}))
                   // dispatch(setBubbleCreated(true));
                 }}
               />
@@ -106,7 +110,9 @@ const LoginScreen = () => {
                 </View>
                 <View style={styles.signupTxtView}>
                   <CustomText style={styles.txtAsk}>Don’t have an account?</CustomText>
-                  <CustomText style={styles.linkText}>Sign Up here</CustomText>
+                  <CustomText style={styles.linkText} onPress={() =>{
+                    navigation.navigate("Signup")
+                  }}>Sign Up here</CustomText>
                 </View>
       </ImageBackground>
   )

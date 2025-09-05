@@ -13,11 +13,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import {imageUrl} from '../Config';
 import {setUserLogout} from '../Store/slices/auth';
+import navigationService from '../navigationService';
 
 const Header = props => {
   const dispatch = useDispatch();
   const notification = useSelector(state => state.commonReducer.notification);
-  // const navigationN = useNavigation();
+  const navigationN = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const {
     title,
@@ -30,7 +31,8 @@ const Header = props => {
     Notify,
     showUser,
     showUndo,
-    onUndoPress
+    onUndoPress,
+    showVoice,
   } = props;
 
   const [searchText, setSearchText] = useState('');
@@ -100,10 +102,10 @@ const Header = props => {
         }}
       />
       }
-      {true && (
+      {showVoice && (
                 <TouchableOpacity
                 activeOpacity={0.9}
-                onPress={() => showBack && navigationN.goBack()}
+                // onPress={() => showBack && navigationN.goBack()}
                 style={{
                   // position: 'absolute',
                   // zIndex: 1,
@@ -117,10 +119,14 @@ const Header = props => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   opacity:0.2
-                }}>
+                }}
+                onPress={()=>{
+                  navigationService.navigate("VoiceListening")
+                }}
+                >
                 <CustomImage
                 
-                source={require("../Assets/Images/wave2.png")} style={{width: moderateScale(5,0.2), height:moderateScale(5,0.2)}}/>
+                source={require("../Assets/Images/wave2.png")} />
               </TouchableOpacity>
       )}
       {showUndo && (
@@ -163,5 +169,18 @@ const styles = ScaledSheet.create({
     paddingVertical:moderateScale(14,0.2)
     // backgroundColor: 'red',
   },
+  wavesContainer:{
+    flexDirection:"row",
+    gap:moderateScale(1,0.2),
+    justifyContent:"space-between"
+
+  },
+  wave:{
+    backgroundColor:Color.white,
+  width:moderateScale(2,0.3),
+  height:moderateScale(2,0.3),
+  borderWidth:2
+
+  }
 });
 export default Header;

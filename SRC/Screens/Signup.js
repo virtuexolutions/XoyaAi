@@ -9,7 +9,10 @@ import Color from '../Assets/Utilities/Color'
 import { moderateScale } from 'react-native-size-matters'
 import CustomText from '../Components/CustomText'
 import CustomButton from '../Components/CustomButton'
-const Signup = () => {
+import { setUserToken } from '../Store/slices/auth'
+import { useDispatch } from 'react-redux'
+const Signup = ({ navigation,route }) => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   return (
@@ -70,23 +73,23 @@ const Signup = () => {
             placeholderColor={Color.white}
           />
         <CustomButton
-                text={'Sign In'}
+                text={'Sign Up'}
                 textColor={Color.white}
            
                 width={windowWidth * 0.9}
                 height={windowHeight * 0.06}
-                gradientColor={['#F6C480', '#BFA14A']}
+                gradientColor={Color.themeGradient1}
                 borderRadius={moderateScale(30, 0.3)}
                 isGradient
                 elevation={24}
-                shadowColor={"#F6C480A3"}
+                shadowColor={Color.secondary}
                 shadowOffset={{width:0, height:18,}}
                 shadowOpacity={0.45}
                 shadowRadius={moderateScale(26,0.2)}
                 isBold={false}
                 marginBottom={moderateScale(50)}
                 onPress={() => {
-                  navigation.goBack();
+                  dispatch(setUserToken({token:"supersecret"}))
                   // dispatch(setBubbleCreated(true));
                 }}
               />
@@ -100,8 +103,6 @@ const Signup = () => {
                 
                 bgColor={"#F6C480"} 
                 width={20}
-                // height={0.97}
-
                 />
               </View>
               <View style={styles.socialActions}>

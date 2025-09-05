@@ -65,8 +65,9 @@ const MainContainer = () => {
   if (isloading == true) {
     return <SplashScreen />;
   }
+  return <AppNavigator/>
   // return <VoiceLIstening />;
-  return <HomeScreen />;
+  // return <HomeScreen />;
   // return <Signup />;
 };
 
